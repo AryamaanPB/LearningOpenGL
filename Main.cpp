@@ -1,4 +1,5 @@
 #include "config.h"	
+#include "TriangleMesh.h"
 
 unsigned int make_shader(const std::string& vertexPath, const std::string& fragmentPath);
 
@@ -14,6 +15,11 @@ int main()
 		return -1;
 	}
 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+
 	window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
 	glfwMakeContextCurrent(window);
 
@@ -23,6 +29,13 @@ int main()
 	}
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	//Set the rendering region to the actual screen size
+	int w, h;
+	glfwGetFramebufferSize(window, &w, &h);
+	//(left, top, width, height)
+	glViewport(0, 0, w, h);
+
+	TriangleMesh* triangleMesh = new TriangleMesh();
 
 	unsigned int shader = make_shader("shaders/vertex.h", "shaders/fragment.h");
 
@@ -31,11 +44,12 @@ int main()
 		glfwPollEvents();
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(shader); //Do not need to call this every frame, but it is something I might need when switiching shaders out
+		triangleMesh->draw();
 		glfwSwapBuffers(window);
 	}
 
 	glDeleteProgram(shader);
-	glfwTerminate();
+	glfwTerminate();   
 	return 0;
 }
 
