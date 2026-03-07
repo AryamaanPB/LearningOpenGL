@@ -137,13 +137,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="config.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="TriangleMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="TriangleMesh.h" />
   </ItemGroup>
   <ItemGroup>

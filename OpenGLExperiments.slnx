@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="OpenGLExperiments.vcxproj" />
+  <Project Path="OpenGLExperiments.vcxproj" Id="17a8ac62-2274-4775-a180-53d8261b98ae" />
 </Solution>

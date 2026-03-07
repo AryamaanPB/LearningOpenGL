@@ -1,5 +1,6 @@
 #include "config.h"	
 #include "TriangleMesh.h"
+#include "Material.h"
 
 unsigned int make_shader(const std::string& vertexPath, const std::string& fragmentPath);
 
@@ -36,19 +37,34 @@ int main()
 	glViewport(0, 0, w, h);
 
 	TriangleMesh* triangleMesh = new TriangleMesh();
+	Material* material = new Material("textures/texture.png");
+	Material* mask = new Material("textures/mask.jpg");
 
 	unsigned int shader = make_shader("shaders/vertex.h", "shaders/fragment.h");
+
+	glUseProgram(shader);
+	glUniform1i(glGetUniformLocation(shader, "material"), 0); //Setting the uniform variable "material" in the shader to use texture unit 0
+	glUniform1i(glGetUniformLocation(shader, "mask"), 1); //Setting the uniform variable "mask" in the shader to use texture unit 0
+
+	//enable alpha blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(shader); //Do not need to call this every frame, but it is something I might need when switiching shaders out
+		material->use(0);
+		mask->use(1);
 		triangleMesh->draw();
 		glfwSwapBuffers(window);
 	}
 
 	glDeleteProgram(shader);
+	delete triangleMesh;
+	delete material;
+	delete mask;
 	glfwTerminate();   
 	return 0;
 }
